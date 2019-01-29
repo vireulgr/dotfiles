@@ -6,6 +6,14 @@
 " delete .svn .o and .d files in filename list:             :<range>g/\.svn\|\.o$\|\.d$/d
 " useful after acquiring file list using this command:      :r!find ./ -name "*<name>*" -type f
 "
+" ====================
+" CONVERT TO HTML
+" ====================
+" Replace chars to its html equivalent
+" %s/#/\&num;/g
+" %s/</\&lt;/g
+" %s/>/\&gt;/g
+"
 " IPv6                                            |   ipv4 tail               | |  mask  |
 "(::)?([0-9a-fA-F]{1,4}:){,7}:?([0-9a-fA-F]{1,4})?(([0-9]{1,3}\.){3}[0-9]{1,3})?(\/[0-9]+)?
 "(::)?([0-9a-fA-F]{1,4}:){,7}:?([0-9a-fA-F]{1,4})?(([0-9]{1,3}\.){3}[0-9]{1,3})?(\/[0-9]{1,3})?
@@ -31,7 +39,7 @@
 
 " assoc vim session file type (vis) with vim
 " C:\>assoc .vis=vimsession
-" C:\>ftype vimsession="C:\Program Files (x86)\vim\vim74\gvim.exe" -S "%1" "%2" "%3" "%4"
+" C:\>ftype vimsession=\"C:\Program Files (x86)\vim\vim74\gvim.exe\" -S \"%1\" \"%2\" \"%3\" \"%4\"
 
 "
 " ===============================
@@ -43,10 +51,8 @@
 " source $VIMRUNTIME/vimrc_example.vim
 " source $VIMRUNTIME/mswin.vim
 " behave mswin
-" 
 
-set encoding=cp1251
-
+let g:scripts="D:\\prog\\scripts"
 set nocompatible
 syntax enable
 " set number
@@ -58,18 +64,28 @@ set noequalalways
 "set winheight=9999
 
 " чтобы vim переносил длинные строки
-" set textwidth=160
+set textwidth=130
 
 " Отобразить строку состояния
 set laststatus=2
 " Формат строки состояния
 "set statusline=\ %f%m%r%h%w%=\|\ %{&ff}\ \|\ %04l,%04v\ \|\ %L\ \|\ %P\ 
-set statusline=\ %y\ %F%m%r%h%w%=\|\ %{&ff}\ \|\ 0x%B\ \|\ %04l/%L,%04v%04V\ 
+set statusline=\ %y\ %F%m%r%h%w%=\|%{&fenc}\|%{&ff}\|0x%B\|%04o\ %04l/%L,%04v\ 
 
-" из habrahabr.ru/post/65518
-" установить размер табуляции в 4 пробела 
-set tabstop=4
-set shiftwidth=4
+" syntastic settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+
+" habrahabr.ru/post/65518
+" установить размер табуляции в 2 пробела 
+set tabstop=2
+set shiftwidth=2
 "set smarttab
 " replace tab with spaces
 set expandtab
@@ -81,22 +97,21 @@ set autoindent
 "set cindent
 " Показывать положение курсора все время
 set ruler
-" Поиск при наборе текста
-set incsearch
-" Подсвечивать найденное
-set hlsearch
+" Подсвечивать найденное; Поиск при наборе текста
+set hlsearch incsearch
 " allow to use backspace instead of "x"
 set backspace=indent,eol,start
 " показывать незавершённые комбинации в нижней строке
 set showcmd
 
 " Encoding opts
-"set encoding=utf-8
-"set fileencoding=utf-8
-set fencs=utf-8,koi8-r,cp1251
+set encoding=utf-8
+set fileencoding=utf-8
+set fencs=utf-8,ucs-bom,cp1251,koi8-r
 
 " dunno
 set diffopt=filler,vertical
+set nowrap
 
 "
 " Plugins
@@ -108,20 +123,22 @@ filetype plugin on
 if has('gui_running')
     if has('win32')
         " autocmd GUIEnter * simalt ~x
-        au GUIEnter * :set lines=50 columns=160
+        " au GUIEnter * :set lines=35 columns=120
+        set lines=45 columns=140
         set guioptions-=T " don't show toolbar
         set guioptions-=m " don't show menu
         colorscheme desert
         " установить шрифт
-        " set guifont=anonymous_pro:h12:cRUSSIAN
-        set guifont=Courier_New:h12:cRUSSIAN
+        set guifont=anonymous_pro:h13:cRUSSIAN
+        " set guifont=Courier_New:h12:cRUSSIAN
         " au GUIEnter * call libcallnr('maximize', 'Maximize', 1)
     elseif has('gui_gtk2')
         au GUIEnter * :set lines=9999 columns=9999
     endif 
+else
+    colorscheme torte
 endif
 
-colorscheme torte
 
 " ===============================
 " Commands
@@ -141,7 +158,7 @@ command -nargs=1 T tabnext <args>
 " map! [X :call CurPatchFile()<CR>
 
 source <sfile>:h/my_grep.vim
-source <sfile>:h/prj_spec.vim
+" source <sfile>:h/prj_spec.vim
 
 set diffexpr=MyDiff()
 function MyDiff()
@@ -167,4 +184,6 @@ function MyDiff()
   endif
   silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
 endfunction
+
+execute pathogen#infect()
 
