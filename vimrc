@@ -40,7 +40,22 @@
 " assoc vim session file type (vis) with vim
 " C:\>assoc .vis=vimsession
 " C:\>ftype vimsession=\"C:\Program Files (x86)\vim\vim74\gvim.exe\" -S \"%1\" \"%2\" \"%3\" \"%4\"
-
+"
+"================================================================================
+" PATHOGEN
+"================================================================================
+" ni -Path $home\vimfiles\autoload -Type Directory
+" $a = new-object System.Net.WebClient
+" $a.DownloadFile('https://tpo.pe/pathogen.vim', '$home\vimfiles\autoload\pathogen.vim')
+" Remove-Variable a
+"================================================================================
+"================================================================================
+" Sytastic
+"================================================================================
+" mkdir ~/.vim/bundle
+" cd ~/.vmi/bundle
+" git clone --depth=1 https://github.com/vim-syntastic/syntastic.git
+"================================================================================
 "
 " ===============================
 " Options
