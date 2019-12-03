@@ -97,6 +97,10 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 
+" eslint
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exe = 'npx eslint .'
+
 " habrahabr.ru/post/65518
 " установить размер табуляции в 2 пробела 
 set tabstop=2
@@ -123,6 +127,7 @@ set showcmd
 set encoding=utf-8
 set fileencoding=utf-8
 set fencs=utf-8,ucs-bom,cp1251,koi8-r
+set ff=unix
 
 " dunno
 set diffopt=filler,vertical
