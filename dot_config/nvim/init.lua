@@ -4,7 +4,6 @@ require('core.mappings')
 require('core.colors')
 require('core.configs')
 
--- some changes!
 -- Plugins
 require('plugins.lsp')
 require('plugins.treesitter')

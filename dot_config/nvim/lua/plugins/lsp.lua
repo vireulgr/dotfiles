@@ -4,24 +4,27 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
+-- C:\\Users\\Username\\AppData\\Roaming\\npm\\node_modules\\vscode-langservers-extracted\\node_modules\\vscode-languageserver\\lib\\node\\main.js
+
 -- Setup language servers.
 
 lspconfig.tsserver.setup {
-  handlers = {
-    ["textDocument/publishDiagnostics"] = function(_, _, params, client_id, _, config)
-      if params.diagnostics ~= nil then
-        local idx = 1
-        while idx <= #params.diagnostics do
-          if params.diagnostics[idx].code == 80001 then
-            table.remove(params.diagnostics, idx)
-          else
-            idx = idx + 1
-          end
-        end
-      end
-      vim.lsp.diagnostic.on_publish_diagnostics(_, _, params, client_id, _, config)
-    end,
-  },
+--  handlers = {
+--    -- not working???
+--    ["textDocument/publishDiagnostics"] = function(_, _, params, client_id, _, config)
+--      if params.diagnostics ~= nil then
+--        local idx = 1
+--        while idx <= #params.diagnostics do
+--          if params.diagnostics[idx].code == 80001 then
+--            table.remove(params.diagnostics, idx)
+--          else
+--            idx = idx + 1
+--          end
+--        end
+--      end
+--      vim.lsp.diagnostic.on_publish_diagnostics(_, _, params, client_id, _, config)
+--    end,
+--  },
   on_attach = function(client, bufnr)
     navic.attach(client, bufnr)
   end,
@@ -51,6 +54,14 @@ lspconfig.pylsp.setup {
     navic.attach(client, bufnr)
   end,
   capabilities = capabilities,
+}
+
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+lspconfig.jsonls.setup {
+  on_attach = function(client, bufnr)
+    navic.attach(client, bufnr)
+  end,
+  capabilities  = capabilities,
 }
 -- lspconfig.golangci_lint_ls.setup {}
 -- lspconfig.rust_analyzer.setup {

@@ -24,30 +24,30 @@ vim.api.nvim_create_user_command('AngularEditTypeScript', function() vim.cmd('ta
 vim.api.nvim_create_user_command('AngularEditCss',        function() vim.cmd('tabe ' .. vim.fn.expand('%:p:r') .. '.css') end, {})
 vim.api.nvim_create_user_command('AngularEditScss',       function() vim.cmd('tabe ' .. vim.fn.expand('%:p:r') .. '.scss') end, {})
 
-function tprint (tbl, indent)
-  if not tbl then
-    print('table is nil')
-  end
-  if not indent then indent = 0 end
-  for k, v in pairs(tbl) do
-    formatting = string.rep("  ", indent) .. k .. ": "
-    if type(v) == "table" then
-      print(formatting)
-      tprint(v, indent+1)
-    elseif type(v) == 'boolean' then
-      print(formatting .. tostring(v))      
-    else
-      print(formatting .. v)
-    end
-  end
-end
+-- function tprint (tbl, indent)
+--   if not tbl then
+--     print('table is nil')
+--   end
+--   if not indent then indent = 0 end
+--   for k, v in pairs(tbl) do
+--     formatting = string.rep("  ", indent) .. k .. ": "
+--     if type(v) == "table" then
+--       print(formatting)
+--       tprint(v, indent+1)
+--     elseif type(v) == 'boolean' then
+--       print(formatting .. tostring(v))      
+--     else
+--       print(formatting .. v)
+--     end
+--   end
+-- end
 
-vim.api.nvim_create_user_command('PrintEditorConfig', function() tprint(vim.b.editorconfig) end, {})
+-- vim.api.nvim_create_user_command('PrintEditorConfig', function() tprint(vim.b.editorconfig) end, {})
 
 vim.opt.title = true
 vim.opt.titlelen = 80
 vim.opt.titlestring = 'nvim %{getcwd()}'
 
 
-vim.cmd('cd $XDG_CONFIG_HOME/nvim')
+-- vim.cmd('cd $XDG_CONFIG_HOME/nvim')
 

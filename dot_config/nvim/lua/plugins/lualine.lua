@@ -39,17 +39,20 @@ require('lualine').setup {
   },
   tabline = {},
   winbar = {
-    lualine_b = {
+    lualine_a = {
       {
         function()
-          return 'ec '
+          return ''
         end,
         cond = function()
-          return vim.b.editorconfig ~= nil
+          return (vim.b.editorconfig ~= nil
+            and next(vim.b.editorconfig) ~= nil)
+            or (vim.g.editorconfig ~= nil
+            and next(vim.g.editorconfig) ~= nil)
         end
       }
     },
-    lualine_c = {
+    lualine_b = {
       {
         function()
           return navic.get_location()
