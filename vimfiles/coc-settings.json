@@ -1,0 +1,13 @@
+{
+  "json.trace.server": "verbose",
+  "pylsp.plugins.pycodestyle.ignore": ["E501"],
+  "pylsp.plugins.pycodestyle.maxLineLength": 150,
+  "pylsp.plugins.ruff.lineLength": 130,
+  "pylsp.plugins.flake8.maxLineLength": 130,
+  "pylsp.builtin.installExtrasArgs": ["all"],
+  "pylsp.builtin.enableInstallPylspMypy": true,
+  "pylsp.builtin.enableInstallPylsIsort": true,
+  "pylsp.builtin.enableInstallPythonLspBlack": true,
+  "pylsp.builtin.enableInstallPylspRope": true,
+  "pylsp.builtin.enableInstallPythonLspRuff": true
+}
