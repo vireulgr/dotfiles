@@ -1,1 +1,1 @@
-dotfiles across all platforms
+dotfiles repo
