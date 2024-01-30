@@ -1,0 +1,30 @@
+
+" чтобы vim переносил длинные строки
+set textwidth=130
+
+" Отобразить строку состояния
+set laststatus=2
+
+" habrahabr.ru/post/65518
+" установить размер табуляции в 2 пробела 
+set tabstop=2
+set shiftwidth=2
+" replace tab with spaces
+set expandtab
+
+" Включить автоотступ для новых строк
+set autoindent
+" Включаем "умные" отступы и отступы в стиле "C" - нафик
+"set smartindent
+"set cindent
+" Показывать положение курсора все время
+"set ruler
+" Подсвечивать найденное; Поиск при наборе текста
+set hlsearch incsearch
+" allow to use backspace instead of "x"
+set backspace=indent,eol,start
+" показывать незавершённые комбинации в нижней строке
+set showcmd
+
+" dunno
+set nowrap
