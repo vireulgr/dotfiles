@@ -1,6 +1,4 @@
-echo 'current host current user'
-
-if ($env:PROMPT_FEATURE -eq '') {
+if ([String]::IsNullOrEmpty($env:PROMPT_FEATURE)) {
   $env:PROMPT_FEATURE = 'PS'
 }
 
