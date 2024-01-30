@@ -1,1 +1,1 @@
-vimrc and neovim config
+dotfiles across all platforms
