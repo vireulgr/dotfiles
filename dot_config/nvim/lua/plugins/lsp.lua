@@ -4,10 +4,13 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
--- C:\\Users\\Username\\AppData\\Roaming\\npm\\node_modules\\vscode-langservers-extracted\\node_modules\\vscode-languageserver\\lib\\node\\main.js
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- node:utils -> utils
+-- C:\\Users\\<Username>\\AppData\\Roaming\\npm\\node_modules\\vscode-langservers-extracted\\node_modules\\vscode-languageserver\\lib\\node\\main.js
 
 -- Setup language servers.
 
+-- TSSERVER
 lspconfig.tsserver.setup {
 --  handlers = {
 --    -- not working???
@@ -30,7 +33,8 @@ lspconfig.tsserver.setup {
   end,
   capabilities = capabilities,
 }
--- lspconfig.prismals.setup {}
+
+-- CSS
 lspconfig.cssls.setup {
   on_attach = function(client, bufnr)
     navic.attach(client, bufnr)
@@ -38,6 +42,16 @@ lspconfig.cssls.setup {
   capabilities = capabilities,
 }
 
+-- HTML
+lspconfig.html.setup {
+  on_attach = function(client, bufnr)
+    navic.attach(client, bufnr)
+
+  end,
+  capabilities = capabilities,
+}
+
+-- PYTHON
 lspconfig.pylsp.setup {
   settings = {
     pylsp = {
@@ -56,26 +70,67 @@ lspconfig.pylsp.setup {
   capabilities = capabilities,
 }
 
-capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- JSON
 lspconfig.jsonls.setup {
   on_attach = function(client, bufnr)
     navic.attach(client, bufnr)
   end,
   capabilities  = capabilities,
 }
--- lspconfig.golangci_lint_ls.setup {}
--- lspconfig.rust_analyzer.setup {
---   settings = {
---     ['rust-analyzer'] = {
---             diagnostics = {
---                 enable = true,
---                 experimental = {
---                     enable = true,
---                 },
---             },
---     },
---   },
--- }
+
+-- LUA (download from https://github.com/LuaLS/lua-language-server)
+lspconfig.lua_ls.setup {
+  on_init = function(client)
+    local path = client.workspace_folders[1].name
+    if not vim.loop.fs_stat(path..'/.luarc.json') and not vim.loop.fs_stat(path..'/.luarc.jsonc') then
+      client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
+        Lua = {
+          runtime = {
+            -- Tell the language server which version of Lua you're using
+            -- (most likely LuaJIT in the case of Neovim)
+            version = 'LuaJIT'
+          },
+          -- Make the server aware of Neovim runtime files
+          workspace = {
+            checkThirdParty = false,
+            library = {
+              vim.env.VIMRUNTIME
+              -- "${3rd}/luv/library"
+              -- "${3rd}/busted/library",
+            }
+            -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
+            -- library = vim.api.nvim_get_runtime_file("", true)
+          }
+        }
+      })
+
+      client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+    end
+    return true
+  end,
+  on_attach = function(client, bufnr)
+    navic.attach(client, bufnr)
+  end,
+  capabilities  = capabilities,
+}
+
+-- ANGULAR
+local globalNpmRoot = 'C:\\Users\\Username\\AppData\\Roaming\\npm'
+local angularLsLocation = globalNpmRoot .. '\\node_modules\\@angular\\language-server\\'
+local tsLocation        = globalNpmRoot .. '\\node_modules\\typescript\\'
+local cmd = {"ngserver", "--stdio", "--tsProbeLocations", tsLocation, "--ngProbeLocations", angularLsLocation}
+
+lspconfig.angularls.setup {
+  cmd = cmd,
+  on_new_config = function(new_config, new_root_dir)
+    new_config.cmd = cmd
+  end,
+  --on_attach = function(client, bufnr)
+  --  navic.attach(client, bufnr)
+  --end,
+  capabilities = capabilities,
+}
+
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions

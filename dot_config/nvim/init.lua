@@ -15,3 +15,4 @@ require('plugins.lualine')
 require('plugins.oil')
 require('plugins.snippy')
 
+

@@ -42,26 +42,36 @@ require('lualine').setup {
     lualine_a = {
       {
         function()
+          return vim.fn.getcwd()
+        end,
+      }
+    },
+    lualine_c = {
+      {
+        function()
+          return navic.get_location()
+        end,
+      },
+    },
+    lualine_y = {
+      {
+        function()
           return ''
         end,
         cond = function()
-          return (vim.b.editorconfig ~= nil
+          return true == (vim.b.editorconfig ~= nil
             and next(vim.b.editorconfig) ~= nil)
             or (vim.g.editorconfig ~= nil
             and next(vim.g.editorconfig) ~= nil)
         end
       }
     },
-    lualine_b = {
+    lualine_z = {
       {
-        function()
-          return navic.get_location()
-        end,
-        cond = function()
-          return navic.is_available()
-        end
+        'datetime',
+        style = '%H:%M'
       },
-    }
+    },
   },
   inactive_winbar = {},
   extensions = {}

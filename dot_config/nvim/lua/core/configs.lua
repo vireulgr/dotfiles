@@ -16,14 +16,6 @@ vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.smartindent = true
 
-vim.api.nvim_create_user_command('OpenGitDiff', function() vim.cmd('tabnew | setf diff | r!git diff') end, {})
-vim.api.nvim_create_user_command('CopyBufferName', function() vim.fn.setreg('"', vim.fn.expand('%:p'), 'c') end, {})
-
-vim.api.nvim_create_user_command('AngularEditHtml',       function() vim.cmd('tabe ' .. vim.fn.expand('%:p:r') .. '.html') end, {})
-vim.api.nvim_create_user_command('AngularEditTypeScript', function() vim.cmd('tabe ' .. vim.fn.expand('%:p:r') .. '.ts') end, {})
-vim.api.nvim_create_user_command('AngularEditCss',        function() vim.cmd('tabe ' .. vim.fn.expand('%:p:r') .. '.css') end, {})
-vim.api.nvim_create_user_command('AngularEditScss',       function() vim.cmd('tabe ' .. vim.fn.expand('%:p:r') .. '.scss') end, {})
-
 -- function tprint (tbl, indent)
 --   if not tbl then
 --     print('table is nil')
@@ -50,4 +42,21 @@ vim.opt.titlestring = 'nvim %{getcwd()}'
 
 
 -- vim.cmd('cd $XDG_CONFIG_HOME/nvim')
+
+-- POWERSHELL as shell in nvim
+vim.o.shell = 'pwsh'
+vim.o.shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+vim.o.shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+vim.o.shellpipe  = '2>&1 | Tee-Object -Encoding UTF8 %s; exit $LastExitCode'
+vim.o.shellquote = ''
+vim.o.shellxquote = ''
+--
+-- my custom commands
+vim.api.nvim_create_user_command('OpenGitDiff', function() vim.cmd('tabnew | setf diff | r!git diff') end, {})
+vim.api.nvim_create_user_command('CopyBufferName', function() vim.fn.setreg('"', vim.fn.expand('%:p'), 'c') end, {})
+
+vim.api.nvim_create_user_command('AngularEditHtml',       function() vim.cmd('tabe ' .. vim.fn.expand('%:p:r') .. '.html') end, {})
+vim.api.nvim_create_user_command('AngularEditTypeScript', function() vim.cmd('tabe ' .. vim.fn.expand('%:p:r') .. '.ts') end, {})
+vim.api.nvim_create_user_command('AngularEditCss',        function() vim.cmd('tabe ' .. vim.fn.expand('%:p:r') .. '.css') end, {})
+vim.api.nvim_create_user_command('AngularEditScss',       function() vim.cmd('tabe ' .. vim.fn.expand('%:p:r') .. '.scss') end, {})
 
