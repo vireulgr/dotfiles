@@ -115,6 +115,8 @@ lspconfig.lua_ls.setup {
 }
 
 -- ANGULAR
+-- error may occure in 
+-- C:\\Users\\Username\\Appdata\\Local\\npm\\node_modules\\@angular\\language-server\\index.js
 local globalNpmRoot = 'C:\\Users\\Username\\AppData\\Roaming\\npm'
 local angularLsLocation = globalNpmRoot .. '\\node_modules\\@angular\\language-server\\'
 local tsLocation        = globalNpmRoot .. '\\node_modules\\typescript\\'
