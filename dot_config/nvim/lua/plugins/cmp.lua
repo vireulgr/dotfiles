@@ -1,5 +1,5 @@
 -- Set up nvim-cmp.
-local cmp = require'cmp'
+local cmp = require('cmp')
 
 cmp.setup({
   snippet = {
@@ -29,8 +29,14 @@ cmp.setup({
     -- { name = 'ultisnips' }, -- For ultisnips users.
     { name = 'snippy' }, -- For snippy users.
   }, {
-    { name = 'buffer' },
-  })
+    { name = 'buffer', keyword_length = 5, max_item_count = 5 },
+    { name = "git" }, -- ???
+  }),
+
+  experimental = {
+    -- native_menu = true,
+    ghost_text = true,
+  },
 })
 
 -- Set configuration for specific filetype.
@@ -60,13 +66,18 @@ cmp.setup.cmdline(':', {
   })
 })
 
+require("cmp_git").setup()
+--- THIS IS DONE IN LSP.LUA
 -- Set up lspconfig.
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+-- local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-require('lspconfig')['tsserver'].setup {
-  capabilities = capabilities
-}
+-- require('lspconfig')['tsserver'].setup {
+--   capabilities = capabilities
+-- }
 
-require('lspconfig')['cssls'].setup {
-  capabilities = capabilities
-}
+-- require('lspconfig').cssls.setup {
+--   capabilities = capabilities
+-- }
+-- require('lspconfig').lua_ls.setup {
+--   capabilities = capabilities
+-- }

@@ -46,29 +46,17 @@ lspconfig.cssls.setup {
 lspconfig.html.setup {
   on_attach = function(client, bufnr)
     navic.attach(client, bufnr)
-
   end,
   capabilities = capabilities,
 }
 
 -- PYTHON
-lspconfig.pylsp.setup {
-  settings = {
-    pylsp = {
-      plugins = {
-        pycodestyle = {
-          ignore = {'W391'},
-          maxLineLength = 100,
-          indentSize = 2
-        }
-      }
-    }
-  },
-  on_attach = function(client, bufnr)
-    navic.attach(client, bufnr)
-  end,
-  capabilities = capabilities,
-}
+do
+  local pythonLsOptions = require('plugins.language_servers.pylsp')
+  pythonLsOptions['on_attach'] = function(client, bufnr) navic.attach(client, bufnr) end
+  pythonLsOptions['capabilities'] = capabilities
+  lspconfig.pylsp.setup(pythonLsOptions)
+end
 
 -- JSON
 lspconfig.jsonls.setup {
@@ -79,59 +67,38 @@ lspconfig.jsonls.setup {
 }
 
 -- LUA (download from https://github.com/LuaLS/lua-language-server)
-lspconfig.lua_ls.setup {
-  on_init = function(client)
-    local path = client.workspace_folders[1].name
-    if not vim.loop.fs_stat(path..'/.luarc.json') and not vim.loop.fs_stat(path..'/.luarc.jsonc') then
-      client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
-        Lua = {
-          runtime = {
-            -- Tell the language server which version of Lua you're using
-            -- (most likely LuaJIT in the case of Neovim)
-            version = 'LuaJIT'
-          },
-          -- Make the server aware of Neovim runtime files
-          workspace = {
-            checkThirdParty = false,
-            library = {
-              vim.env.VIMRUNTIME
-              -- "${3rd}/luv/library"
-              -- "${3rd}/busted/library",
-            }
-            -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
-            -- library = vim.api.nvim_get_runtime_file("", true)
-          }
-        }
-      })
+do
+  local luaLsOptions = require('plugins.language_servers.luals')
+  luaLsOptions['on_attach'] = function(client, bufnr) navic.attach(client, bufnr) end
+  luaLsOptions['capabilities'] = capabilities
 
-      client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
-    end
-    return true
-  end,
-  on_attach = function(client, bufnr)
-    navic.attach(client, bufnr)
-  end,
-  capabilities  = capabilities,
-}
+  lspconfig.lua_ls.setup(luaLsOptions)
+end
+
 
 -- ANGULAR
 -- error may occure in 
 -- C:\\Users\\Username\\Appdata\\Local\\npm\\node_modules\\@angular\\language-server\\index.js
-local globalNpmRoot = 'C:\\Users\\Username\\AppData\\Roaming\\npm'
-local angularLsLocation = globalNpmRoot .. '\\node_modules\\@angular\\language-server\\'
-local tsLocation        = globalNpmRoot .. '\\node_modules\\typescript\\'
-local cmd = {"ngserver", "--stdio", "--tsProbeLocations", tsLocation, "--ngProbeLocations", angularLsLocation}
+do
+  local angularLsOptions = require('plugins.language_servers.angularls')
+  angularLsOptions['capabilities'] = capabilities;
+  lspconfig.angularls.setup(angularLsOptions)
+end
 
-lspconfig.angularls.setup {
-  cmd = cmd,
-  on_new_config = function(new_config, new_root_dir)
-    new_config.cmd = cmd
-  end,
-  --on_attach = function(client, bufnr)
-  --  navic.attach(client, bufnr)
-  --end,
-  capabilities = capabilities,
-}
+-- ESLINT
+do
+  local eslintOptions = require('plugins.language_servers.eslint')
+  eslintOptions['capabilities'] = capabilities
+  --eslintOptions['on_attach'] = function(client, bufnr)
+  --    navic.attach(client, bufnr)
+  --    vim.api.nvim_create_autocmd("BufWritePre", {
+  --      buffer = bufnr,
+  --      command = "EslintFixAll",
+  --    })
+  --  end
+  lspconfig.eslint.setup(eslintOptions)
+end
+
 
 
 -- Global mappings.
