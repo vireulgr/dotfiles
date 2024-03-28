@@ -77,11 +77,11 @@ require('lualine').setup {
       --    -- Automatically updates active buffer color to match color of other components (will be overidden if buffers_color is set)
       --    use_mode_colors = false,
 
-      --    --buffers_color = {
+      --    buffers_color = {
       --      -- Same values as the general color option can be used here.
-      --      --active = 'lualine_{section}_normal',     -- Color for active buffer.
-      --      --inactive = 'lualine_{section}_inactive', -- Color for inactive buffer.
-      --    --},
+      --      active = 'lualine_{section}_normal',     -- Color for active buffer.
+      --      inactive = 'lualine_{section}_inactive', -- Color for inactive buffer.
+      --    },
 
       --    symbols = {
       --      modified = ' ●',      -- Text to show when the buffer is modified
@@ -100,7 +100,7 @@ require('lualine').setup {
         -- 1: Shows tab_name
         -- 2: Shows tab_nr + tab_name
 
-        path = 3, -- 0: just shows the filename
+        path = 0, -- 0: just shows the filename
         -- 1: shows the relative path and shorten $HOME to ~
         -- 2: shows the full path
         -- 3: shows the full path and shorten $HOME to ~
@@ -114,10 +114,10 @@ require('lualine').setup {
           inactive = 'lualine_b_inactive', -- Color for inactive tab.
         },
 
-        show_modified_status = true,  -- Shows a symbol next to the tab name if the file has been modified.
-        symbols = {
-          modified = '󰆕',  -- Text to show when the file is modified.
-        },
+        -- show_modified_status = true,  -- Shows a symbol next to the tab name if the file has been modified.
+        -- symbols = {
+        --   modified = '󰆕',  -- Text to show when the file is modified.
+        -- },
 
         fmt = function(name, context)
           -- Show + if buffer is modified in tab
@@ -126,14 +126,12 @@ require('lualine').setup {
           local bufnr = buflist[winnr]
           local mod = vim.fn.getbufvar(bufnr, '&mod')
 
-          return name .. (mod == 1 and ' +' or '')
+          return (name .. (mod == 1 and ' +' or '') .. 'b' .. bufnr)
         end
       }
     },
   },
   winbar = {
-    lualine_a = {
-    },
     lualine_c = {
       {
         function()
