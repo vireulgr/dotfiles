@@ -1,40 +1,50 @@
-vim.wo.number = true
-vim.wo.relativenumber = true
-
 -- pynvim `g:python3_host_prog` is not set.  Searching for python3.11 in the environment.
 vim.g.python3_host_prog = 'C:\\Python311\\python.exe'
 
+vim.g.formatoptions = 'qrn1'
 vim.g.did_load_filetypes = 0
 vim.g.do_filetype_lua = 1
 
+vim.opt.showmode = false
+vim.opt.virtualedit = 'block'
+vim.opt.undofile = true
+vim.opt.scrolloff = 8
+vim.wo.linebreak = true
+vim.opt.updatetime = 1000
+
+-- Mouse
+vim.opt.mouse = 'a'
+vim.opt.mousefocus = true
+
+-- Line Numbers
 vim.opt.number = true
+vim.opt.relativenumber = true
 vim.opt.signcolumn = 'yes'
 
+-- Clipboard
+vim.opt.clipboard = 'unnamedplus'
+
+-- Shorter messages
+vim.opt.shortmess:append('c')
+
+-- Indent Settings
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.smartindent = true
 
--- function tprint (tbl, indent)
---   if not tbl then
---     print('table is nil')
---   end
---   if not indent then indent = 0 end
---   for k, v in pairs(tbl) do
---     formatting = string.rep("  ", indent) .. k .. ": "
---     if type(v) == "table" then
---       print(formatting)
---       tprint(v, indent+1)
---     elseif type(v) == 'boolean' then
---       print(formatting .. tostring(v))      
---     else
---       print(formatting .. v)
---     end
---   end
--- end
-
--- vim.api.nvim_create_user_command('PrintEditorConfig', function() tprint(vim.b.editorconfig) end, {})
+-- Fillchars
+vim.opt.fillchars = {
+    vert = "│",
+    fold = "⠀",
+    eob = " ", -- suppress ~ at EndOfBuffer
+    diff = "⣿", -- alternatives = ⣿ ░ ─ ╱
+    msgsep = "‾",
+    foldopen = "▾",
+    foldsep = "│",
+    foldclose = "▸"
+}
 
 vim.opt.title = true
 vim.opt.titlelen = 80
