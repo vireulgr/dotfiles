@@ -1,6 +1,9 @@
 -- pynvim `g:python3_host_prog` is not set.  Searching for python3.11 in the environment.
 vim.g.python3_host_prog = 'C:\\Python311\\python.exe'
 
+vim.opt.fileformat = 'unix'
+vim.opt.fileencodings = {'utf-8', 'cp1251', 'iso-8859-5', 'latin1'}
+
 vim.g.formatoptions = 'qrn1'
 vim.g.did_load_filetypes = 0
 vim.g.do_filetype_lua = 1
@@ -8,7 +11,7 @@ vim.g.do_filetype_lua = 1
 vim.opt.showmode = false
 vim.opt.virtualedit = 'block'
 vim.opt.undofile = true
-vim.opt.scrolloff = 8
+vim.opt.scrolloff = 2
 vim.wo.linebreak = true
 vim.opt.updatetime = 1000
 

@@ -1,4 +1,6 @@
-vim.g.mapleader = " "
+
+-- Make sure to set `mapleader` before lazy so your mappings are correct
+vim.g.mapleader = ' '
 
 -- NeoTree
 vim.keymap.set('n', '<leader>e', ':Neotree float focus<CR>')
@@ -6,6 +8,14 @@ vim.keymap.set('n', '<leader>E', ':Neotree float reveal<CR>')
 vim.keymap.set('n', '<leader>o', ':Neotree float git_status<CR>')
 -- vim.keymap.set('n', '<C-w>at', ':Neotree float git_status<CR>')
 
+-- Global mappings.
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+vim.keymap.set('n', '<leader>lD', vim.diagnostic.open_float)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<leader>ld', vim.diagnostic.setloclist)
+
+-- Snippy
 -- vim.cmd([[
 --   imap <expr> <Tab> snippy#can_expand_or_advance() ? '<Plug>(snippy-expand-or-advance)' : '<Tab>'
 --   imap <expr> <S-Tab> snippy#can_jump(-1) ? '<Plug>(snippy-previous)' : '<S-Tab>'
