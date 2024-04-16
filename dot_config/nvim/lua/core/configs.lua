@@ -76,7 +76,7 @@ vim.o.shellxquote = ''
 
 -- my custom commands
 function ShowGitDiff()
-  vim.cmd('tabnew | setf diff | r!git diff')
+  vim.cmd('tabnew | setf diff | file git_diff | r!git diff')
 end
 vim.api.nvim_create_user_command('ShowGitDiff', ShowGitDiff, {})
 
@@ -101,4 +101,25 @@ end, {})
 
 vim.api.nvim_create_user_command('AngularEditScss',       function()
   vim.cmd('tabe ' .. vim.fn.expand('%:p:r') .. '.scss')
+end, {})
+
+
+vim.api.nvim_create_user_command('QuoteLikeJSON', function()
+
+  local sel_start = vim.fn.getpos("'<")
+  local sel_end = vim.fn.getpos("'>")
+  local start_line = sel_start[2] - 1
+  -- local start_col = sel_start[3] - 1
+  local end_line = sel_end[2]
+  -- local end_col = sel_end[3]
+
+  local lines = vim.api.nvim_buf_get_lines(0, start_line, end_line, false)
+
+  local result = {}
+  for _, v in ipairs(lines) do
+    table.insert(result, vim.fn.substitute(v, '\\(\\<\\w\\+\\>\\):', '"\\1":', 'g'))
+  end
+
+  vim.api.nvim_buf_set_lines(0, start_line, end_line, false, result);
+
 end, {})
