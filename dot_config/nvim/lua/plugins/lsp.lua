@@ -8,32 +8,45 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 -- node:utils -> utils
 -- C:\\Users\\<Name>\\AppData\\Roaming\\npm\\node_modules\\vscode-langservers-extracted\\node_modules\\vscode-languageserver\\lib\\node\\main.js
 
+
+local on_attach = function(client, bufnr)
+  navic.attach(client, bufnr)
+end
+
 -- Setup language servers.
+
+-- RUST
+lspconfig.rust_analyzer.setup {
+  on_attach = on_attach,
+  settings = {
+    ["rust-analyzer"] = {
+      imports = {
+        granularity = {
+          group = "module",
+        },
+        prefix = "self",
+      },
+      cargo = {
+        buildScripts = {
+          enable = true,
+        },
+      },
+      procMacro = {
+        enable = true
+      },
+    }
+  }
+}
 
 -- TSSERVER
 -- npm i -g typescript typescript-language-server
-lspconfig.tsserver.setup {
---  handlers = {
---    -- not working???
---    ["textDocument/publishDiagnostics"] = function(_, _, params, client_id, _, config)
---      if params.diagnostics ~= nil then
---        local idx = 1
---        while idx <= #params.diagnostics do
---          if params.diagnostics[idx].code == 80001 then
---            table.remove(params.diagnostics, idx)
---          else
---            idx = idx + 1
---          end
---        end
---      end
---      vim.lsp.diagnostic.on_publish_diagnostics(_, _, params, client_id, _, config)
---    end,
---  },
-  on_attach = function(client, bufnr)
-    navic.attach(client, bufnr)
-  end,
-  capabilities = capabilities,
-}
+do
+  local luaLsOptions = require('plugins.language_servers.tsserver')
+  luaLsOptions['on_attach'] = function(client, bufnr) navic.attach(client, bufnr) end
+  luaLsOptions['capabilities'] = capabilities
+
+  lspconfig.tsserver.setup(luaLsOptions)
+end
 
 -- CSS
 lspconfig.cssls.setup {
@@ -81,11 +94,11 @@ end
 -- ANGULAR
 -- error may occure in 
 -- C:\\Users\\Username\\Appdata\\Local\\npm\\node_modules\\@angular\\language-server\\index.js
-do
-  local angularLsOptions = require('plugins.language_servers.angularls')
-  angularLsOptions['capabilities'] = capabilities;
-  lspconfig.angularls.setup(angularLsOptions)
-end
+--do
+--  local angularLsOptions = require('plugins.language_servers.angularls')
+--  angularLsOptions['capabilities'] = capabilities;
+--  lspconfig.angularls.setup(angularLsOptions)
+--end
 
 -- ESLINT
 do

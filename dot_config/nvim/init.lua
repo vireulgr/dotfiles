@@ -60,4 +60,5 @@ require('plugins.navic')
 require('plugins.lualine')
 require('plugins.oil')
 require('plugins.snippy')
+require('plugins.cd-to-recent')
 

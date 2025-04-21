@@ -1,10 +1,10 @@
 local M = {
-  --handlers = {
-  --  ["eslint/confirmESLintExecution"] = function () end,
-  --  ["eslint/noLibrary"] = function () end,
-  --  ["eslint/openDoc"] = function () end,
-  --  ["eslint/probeFailed"] = function () end,
-  --},
+  handlers = {
+    ["eslint/confirmESLintExecution"] = function () vim.prent('eslint confirmESLintExecution'); end,
+    ["eslint/noLibrary"] = function () vim.prent('eslint noLibrary'); end,
+    ["eslint/openDoc"] = function () vim.prent('eslint openDoc'); end,
+    ["eslint/probeFailed"] = function () vim.prent('eslint probeFailed'); end,
+  },
   settings = {
     codeAction = {
       disableRuleComment = {
@@ -34,7 +34,7 @@ local M = {
     useESLintClass = false,
     validate = "on",
     workingDirectory = {
-      mode = "location"
+      mode = "auto"
     }
   }
 }

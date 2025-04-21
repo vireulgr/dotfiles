@@ -22,12 +22,12 @@ require('lualine').setup {
     }
   },
   sections = {
-    lualine_a = {
-      --{
-      --  'mode',
-      --  fmt = function(str) return str:sub(1,1) end
-      --},
-    },
+    -- lualine_a = {
+    --   {
+    --     'mode',
+    --     fmt = function(str) return str:sub(1,1) end
+    --   },
+    -- },
     lualine_b = {'branch', 'diff', 'diagnostics'},
     lualine_c = {'filename'},
     lualine_x = {'encoding', 'fileformat', 'filetype'},
@@ -44,13 +44,6 @@ require('lualine').setup {
   },
   tabline = {
     lualine_a = {
-      {
-        function()
-          return vim.fn.getcwd()
-        end,
-      }
-    },
-    lualine_b = {
       --  {
       --    'buffers',
       --    show_filename_only = true,   -- Shows shortened relative path when set to false.
@@ -92,15 +85,15 @@ require('lualine').setup {
       {
         'tabs',
         tab_max_length = 40,  -- Maximum width of each tab. The content will be shorten dynamically (example: apple/orange -> a/orange)
-        max_length = vim.o.columns, -- Maximum width of tabs component.
+        max_length = vim.o.columns / 3, -- Maximum width of tabs component.
         -- Note:
         -- It can also be a function that returns
         -- the value of `max_length` dynamically.
-        mode = 0, -- 0: Shows tab_nr
+        -- mode = 0, -- 0: Shows tab_nr
         -- 1: Shows tab_name
         -- 2: Shows tab_nr + tab_name
 
-        path = 0, -- 0: just shows the filename
+        -- path = 0, -- 0: just shows the filename
         -- 1: shows the relative path and shorten $HOME to ~
         -- 2: shows the full path
         -- 3: shows the full path and shorten $HOME to ~
@@ -116,7 +109,7 @@ require('lualine').setup {
 
         -- show_modified_status = true,  -- Shows a symbol next to the tab name if the file has been modified.
         -- symbols = {
-        --   modified = '󰆕',  -- Text to show when the file is modified.
+        --   modified = '[󰆕]',  -- Text to show when the file is modified.
         -- },
 
         fmt = function(name, context)
@@ -125,14 +118,23 @@ require('lualine').setup {
           local winnr = vim.fn.tabpagewinnr(context.tabnr)
           local bufnr = buflist[winnr]
           local mod = vim.fn.getbufvar(bufnr, '&mod')
+          local has_file = vim.fn.getbufvar(bufnr, '&buftype')
 
-          return (name .. (mod == 1 and ' +' or '') .. 'b' .. bufnr)
+          -- return (name .. (mod == 1 and ' +' or '') .. 'b' .. bufnr)
+          return '123'
         end
+      }
+    },
+    lualine_z = {
+      {
+        function()
+          return vim.fn.getcwd()
+        end,
       }
     },
   },
   winbar = {
-    lualine_c = {
+    lualine_a = {
       {
         function()
           return navic.get_location()
@@ -159,6 +161,26 @@ require('lualine').setup {
       },
     },
   },
-  inactive_winbar = {},
+  inactive_winbar = {
+    lualine_y = {
+      {
+        function()
+          return ''
+        end,
+        cond = function()
+          return true == (vim.b.editorconfig ~= nil
+            and next(vim.b.editorconfig) ~= nil)
+            or (vim.g.editorconfig ~= nil
+            and next(vim.g.editorconfig) ~= nil)
+        end
+      }
+    },
+    lualine_z = {
+      {
+        'datetime',
+        style = '%H:%M'
+      },
+    },
+  },
   extensions = {}
 }
