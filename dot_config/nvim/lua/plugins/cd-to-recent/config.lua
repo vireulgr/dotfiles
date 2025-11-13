@@ -5,7 +5,7 @@ local config = {
   }
 }
 local current_path = vim.fn.expand('%:p')
-if 0 == vim.fn.isdirectory(current_path) then
+if string.len(current_path) > 0 and 0 == vim.fn.isdirectory(current_path) then
   table.insert(config.predefined_directories, 1, { name = "Current file directory", path = vim.fs.dirname(current_path) })
 end
 
