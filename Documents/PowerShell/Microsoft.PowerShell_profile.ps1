@@ -5,3 +5,5 @@ if ([String]::IsNullOrEmpty($env:PROMPT_FEATURE)) {
 function Prompt {
   "[$env:PROMPT_FEATURE] $($executionContext.SessionState.Path.CurrentLocation)$('>' * ($nestedPromptLevel + 1))"
 }
+
+Set-PsReadLineOption -EditMode vi

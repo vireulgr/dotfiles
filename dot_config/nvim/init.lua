@@ -62,3 +62,10 @@ require('plugins.oil')
 require('plugins.snippy')
 require('plugins.cd-to-recent')
 
+-- wasya: function (...) {
+--   wasya(...) {
+-- '<,'>s/^\s*\(\w\+\):\s*function\s*(/  \1(/
+--
+-- GLOBAL_GAME.container.prototype.wasya = function (...) {
+--   wasya(...) {
+-- '<,'>s/GLOBAL_GAME\.\w\+\.\(\w\+\)\s*=\s*function\s*(/  \1(/

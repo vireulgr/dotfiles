@@ -85,12 +85,14 @@ local function show_git_diff()
 end
 vim.api.nvim_create_user_command('ShowGitDiff', show_git_diff, {})
 
+-- ##############################################################################
 local function copy_buffer_name()
   local buf_name = vim.fn.escape(vim.fn.expand('%:p'), ' \\')
   vim.fn.setreg('"', buf_name, 'c')
 end
 vim.api.nvim_create_user_command('CopyBufferName', copy_buffer_name, {})
 
+-- ##############################################################################
 local function quote_like_json()
   local sel_start = vim.fn.getpos("'<")
   local sel_end = vim.fn.getpos("'>")
@@ -126,3 +128,12 @@ end, {})
 vim.api.nvim_create_user_command('AngularEditScss',       function()
   vim.cmd('tabe ' .. vim.fn.expand('%:p:r') .. '.scss')
 end, {})
+
+
+-- ##############################################################################
+local function prettify_code()
+  vim.cmd('%s/\\s\\+$//')
+  vim.cmd('%s/\\(\\ *\\)}\\ *else\\ *{/\\1}\\r\\1else {/')
+end
+
+-- vim.api.nvim_create_user_command('PrettifyCode', prettify_code, {})
